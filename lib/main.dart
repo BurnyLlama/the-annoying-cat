@@ -1,32 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'dart:math';
+import 'cat.dart';
 
-AudioPlayer player = AudioPlayer();
 String catPic = "assets/el_gatos.jpg";
 
 void main() => runApp(const MyApp());
-
-String selectRandomMeow() {
-  List<String> meows = [
-    "meow1.mp3",
-    "meow2.mp3",
-    "meow3.mp3",
-    "meow4.mp3",
-    "meow5.mp3"
-  ];
-
-  int randIndex = Random().nextInt(meows.length);
-
-  return meows[randIndex];
-}
-
-bool shouldPlayMeow = true;
-void playMeow() {
-  if (shouldPlayMeow) {
-    player.play(AssetSource(selectRandomMeow()));
-  }
-}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -42,14 +19,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  @override
-  void initState() {
-    player.onPlayerComplete.listen((event) {
-      playMeow();
-    });
-
-    super.initState();
-  }
+  Cat cat = Cat();
 
   @override
   Widget build(BuildContext context) {
@@ -76,18 +46,21 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        shouldPlayMeow = true;
                         changeCatPic("assets/el_gatos2.jpg");
-                        playMeow();
+                        cat.startMeow();
                       },
                       child: const Text("Meow! ^>^")),
                   ElevatedButton(
                       onPressed: () {
-                        shouldPlayMeow = false;
                         changeCatPic("assets/el_gatos.jpg");
-                        player.stop();
+                        cat.stopMeow();
                       },
-                      child: const Text("SHUT UP! >.<"))
+                      child: const Text("SHUT UP! >.<")),
+                  ElevatedButton(
+                      onPressed: () {
+                        cat.feed();
+                      },
+                      child: const Text("Feed! :3")),
                 ],
               )
             ],
