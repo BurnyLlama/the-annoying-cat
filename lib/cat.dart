@@ -71,7 +71,7 @@ class Cat {
   // Feed the cat; decreases hunger by 1.
   void feed() {
     if (_hunger > 0) {
-      _hunger -= 2;
+      _hunger -= 1;
     }
     stopMeow();
     _onStatChange();
