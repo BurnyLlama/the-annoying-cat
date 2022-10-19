@@ -13,8 +13,8 @@ class Cat {
   final AudioPlayer _player = AudioPlayer();
 
   // This keeps track of the cat's hunger and maxHunger.
-  int _hunger = 1;
-  final int maxHunger = 10;
+  int _foodSupply = 5;
+  final int maximumFoodSupply = 10;
 
   // This is a list of all possible meow sounds.
   static const _meows = [
@@ -39,19 +39,19 @@ class Cat {
   }
 
   // Increases the cat's hunger by 1.
-  void _getHungrier() {
-    if (_hunger < maxHunger && Random().nextInt(10) == 7) {
-      _hunger += 1;
+  void _decreaseFoodSupply() {
+    if (_foodSupply < maximumFoodSupply && Random().nextInt(10) == 7) {
+      _foodSupply += 1;
       _onStatChange();
     }
   }
 
   // Start a periodic timer that increases hunger.
-  void _startHunger() {
+  void _startFoodConsumption() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      _getHungrier();
+      _decreaseFoodSupply();
 
-      if (_hunger > 9) {
+      if (_foodSupply > 9) {
         startMeow();
       }
     });
@@ -70,8 +70,8 @@ class Cat {
 
   // Feed the cat; decreases hunger by 1.
   void feed() {
-    if (_hunger > 0) {
-      _hunger -= 1;
+    if (_foodSupply > 0) {
+      _foodSupply -= 1;
     }
     stopMeow();
     _onStatChange();
@@ -79,7 +79,7 @@ class Cat {
 
   // Let the outside world see the cat's hunger.
   int getHunger() {
-    return _hunger;
+    return _foodSupply;
   }
 
   // Initialize the cat.
@@ -90,7 +90,7 @@ class Cat {
     });
 
     // Make sure the cat gets hungrier.
-    _startHunger();
+    _startFoodConsumption();
 
     // Make sure to add a callback to be run on a stat change.
     _onStatChange = onStatChange;

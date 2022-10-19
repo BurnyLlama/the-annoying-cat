@@ -24,7 +24,8 @@ class _MyAppState extends State<MyApp> {
   // Change the hunger bar.
   hungerBar() {
     setState(() {
-      hungerBarValue = cat.getHunger() / cat.maxHunger;
+      hungerBarValue =
+          cat.maximumFoodSupply - cat.getHunger() / cat.maximumFoodSupply;
     });
   }
 
@@ -97,7 +98,7 @@ class _MyAppState extends State<MyApp> {
               ),
               Column(
                 children: [
-                  const Text("Hunger:"),
+                  const Text("Food:"),
                   LinearProgressIndicator(
                     minHeight: 10,
                     value: hungerBarValue,
